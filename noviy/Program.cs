@@ -13,7 +13,7 @@ namespace noviy
                cat.HungryStatus = 150;
              Console.WriteLine($"{cat.HungryStatus}");
               Console.ReadLine();
-
+            // 111
 
             
         }
