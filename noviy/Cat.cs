@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace noviy
 {
@@ -45,11 +46,11 @@ namespace noviy
             {
                 if (value < 0)
                 {
-                    byte _hungryStatus = 0;
+                     _hungryStatus = 0;
                 }
                 else if (value > 100)
                 {
-                    byte _hungryStatus = 100;
+                     _hungryStatus = 100;
                 }
                 else
                 {
@@ -67,32 +68,32 @@ namespace noviy
                 Console.WriteLine($"{Name} умирает от голода");
                 Console.ResetColor();
             }
-            else if (HungryStatus <= 10 && HungryStatus <= 40)
+            else if (HungryStatus > 10 && HungryStatus <= 40)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"{Name} очень голодна");
                 Console.ResetColor();
             }
-            else if (HungryStatus <= 40 && HungryStatus <= 70)
+            else if (HungryStatus > 40 && HungryStatus <= 70)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"{Name} хочет кушать");
                 Console.ResetColor();
             }
-            else if (HungryStatus <= 70 && HungryStatus <= 90)
+            else if (HungryStatus > 70 && HungryStatus <= 90)
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"{Name} не против перекусить");
                 Console.ResetColor();
             }
-            else
+            else if (HungryStatus > 90)
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"{Name} недавно поела");
                 Console.ResetColor();
             }
         }
-        public async Task LifeCircle()
+        async Task LifeCircle()
         {
             await Task.Delay(10000);
             HungryStatus -= 10;
