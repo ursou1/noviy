@@ -56,6 +56,10 @@ namespace noviy
                 {
                     _hungryStatus = value;
                 }
+                if (HungryStatus != _hungryStatus)
+                {
+                    HungryStatusChanged?.Invoke(this, null); // оператор ?. защищает нас от вызова события, на которое не подписан ни один метод
+                }
             }
         }
         public void GetStatus()
@@ -97,8 +101,13 @@ namespace noviy
         {
             await Task.Delay(10000);
             HungryStatus -= 10;
-            GetStatus();
             await LifeCircle();
+        }
+        public event EventHandler HungryStatusChanged;
+
+        public void Feed()
+        {
+            HungryStatus = 100;
         }
     }
 }
