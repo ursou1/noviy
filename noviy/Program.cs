@@ -13,14 +13,14 @@ namespace noviy
            cat.HungryStatus = 150;
            Console.WriteLine($"{cat.HungryStatus}");
            // 
-            cat.HungryStatusChanged += Cat_HungryStatusChanged; // подписали Анфису
+            cat.HungryStatusChanged += Cat_HungryStatusChanged;
          //создаем еще кошку
            Cat cat2 = new Cat("Маша", new DateTime(1993, 9, 6));
            cat2.MakeNoise();
            cat2.HungryStatus = 60;
            Console.WriteLine($"Кошке по имени {cat2.Name} уже {cat2.GetAge()} лет");
            Console.WriteLine($"{cat2.HungryStatus}");
-            cat2.HungryStatusChanged += Cat_HungryStatusChanged; // подписали Машу
+            cat2.HungryStatusChanged += Cat_HungryStatusChanged;
             Console.ReadLine();
         }
         private static void Cat_HungryStatusChanged(object sender, EventArgs e)
