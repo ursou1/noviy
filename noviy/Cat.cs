@@ -7,6 +7,8 @@ namespace noviy
 {
     class Cat
     {
+        public event EventHandler HungryStatusChanged;
+        byte _hungryStatus;
         public string Name
         {
             get;
@@ -18,8 +20,6 @@ namespace noviy
             Birthday = birthday;
             Task.Run(LifeCircle);
         }
-
-
         public void MakeNoise()
         {
             Console.WriteLine($"{Name} мяукает");
@@ -33,7 +33,6 @@ namespace noviy
         {
             return (DateTime.Today - Birthday).Days / 365;
         }
-        public byte _hungryStatus;
 
         public byte HungryStatus
         {
@@ -62,6 +61,11 @@ namespace noviy
                 }
             }
         }
+        public void Feed(byte xorek)
+        {
+            HungryStatus += xorek;
+        }
+
         public void GetStatus()
         {
             Console.WriteLine($"{Name}");
@@ -103,11 +107,6 @@ namespace noviy
             HungryStatus -= 10;
             await LifeCircle();
         }
-        public event EventHandler HungryStatusChanged;
-
-        public void Feed()
-        {
-            HungryStatus = 100;
-        }
+        
     }
 }

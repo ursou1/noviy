@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace noviy
 {
@@ -13,24 +14,21 @@ namespace noviy
            cat.HungryStatus = 150;
            Console.WriteLine($"{cat.HungryStatus}");
            // 
-            cat.HungryStatusChanged += Cat_HungryStatusChanged;
          //создаем еще кошку
-           Cat cat2 = new Cat("Маша", new DateTime(1993, 9, 6));
-           cat2.MakeNoise();
-           cat2.HungryStatus = 60;
-           Console.WriteLine($"Кошке по имени {cat2.Name} уже {cat2.GetAge()} лет");
-           Console.WriteLine($"{cat2.HungryStatus}");
-            cat2.HungryStatusChanged += Cat_HungryStatusChanged;
+           Cat cat1 = new Cat("Маша", new DateTime(1993, 9, 6));
+
+            cat1.MakeNoise();
+             cat1.HungryStatus = 60;
+             Console.WriteLine($"Кошке по имени {cat1.Name} уже {cat1.GetAge()} лет");
+             Console.WriteLine($"{cat1.HungryStatus}");
+            
+            CatSmartHouse chicken = new CatSmartHouse(100);
+            chicken.AddCat(cat);
+            chicken.AddCat(cat1);
+
             Console.ReadLine();
         }
-        private static void Cat_HungryStatusChanged(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-            Cat cat = (Cat)sender;
-            if (cat.HungryStatus < 20 && rnd.Next(0, 10) < 5)
-                cat.Feed();
-            else
-                cat.GetStatus();
-        }
+
+       
     }
 }
