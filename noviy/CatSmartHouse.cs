@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace noviy
@@ -9,9 +11,30 @@ namespace noviy
 
         List<Cat> cats = new List<Cat>();
 
+        void PrintStatus()
+        {
+            int leftPosition = Console.CursorLeft;
+            int topPosition = Console.CursorTop;
+
+            for (int i = 0; i < cats.Count; i++)
+            {
+                string message = cats[i].GetStatus("");
+                int color = Convert.ToInt32(message.Substring(0, 1));
+                Console.SetCursorPosition(0, i);
+                Console.ForegroundColor = (ConsoleColor)color;
+                Console.Write(message.Substring(2).Trim().PadRight(50));
+                Console.ResetColor();
+                
+            }
+            Console.SetCursorPosition(0, CatsCount);
+            Console.Write($"Еды в вольере: + {FoodResourse}".PadRight(50));
+            Console.SetCursorPosition(leftPosition, topPosition);
+        }
+
+
         public CatSmartHouse(int foodResource)
         {
-            FoodResource = FoodResource;
+            FoodResource = foodResource;
         }
         public void AddCat(Cat cat)
         {
@@ -23,8 +46,16 @@ namespace noviy
             get;
             set;
         }
+        public int CatsCount
+        {
+            get
+            {
+                return cats.Count;
+            }
+        }
+        public int FoodResourse { get; set; }
 
-        private void Cat_HungryStatusChanged(object sender, EventArgs e)
+        public void Cat_HungryStatusChanged(object sender, EventArgs e)
         {
             var cat = (Cat)sender;
             if (cat.HungryStatus <= 20 && FoodResource > 0)
@@ -38,7 +69,7 @@ namespace noviy
                     FoodResource = 0;
                 }
                 cat.Feed(needFood);
-                Console.WriteLine($"Покормлена кошка: {cat.Name}\nОстаток еды в вольере: {FoodResource}");
+                PrintStatus();
             }
         }
     }

@@ -43,22 +43,20 @@ namespace noviy
 
             set
             {
-                if (value < 0)
+                byte s = value;
+                if (s < 0)
                 {
-                     _hungryStatus = 0;
+                     s = 0;
                 }
-                else if (value > 100)
+                else if (s > 100)
                 {
-                     _hungryStatus = 100;
+                     s = 100;
                 }
-                else
-                {
-                    _hungryStatus = value;
-                }
-                if (HungryStatus != _hungryStatus)
+                if (HungryStatus != s)
                 {
                     HungryStatusChanged?.Invoke(this, null); // оператор ?. защищает нас от вызова события, на которое не подписан ни один метод
                 }
+                _hungryStatus = s;
             }
         }
         public void Feed(byte xorek)
@@ -66,44 +64,38 @@ namespace noviy
             HungryStatus += xorek;
         }
 
-        public void GetStatus()
+        public string GetStatus(string color)
         {
-            Console.WriteLine($"{Name}");
-            Console.WriteLine($"Возраст {GetAge()}");
-            if (HungryStatus <= 10)
+            string name = Name;
+            string age = Convert.ToString(GetAge());
+            string status = Convert.ToString(HungryStatus);
+            Console.WriteLine($" {Name}, Возраст: {GetAge()}, {HungryStatus}");
+            if (HungryStatus < 10)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{Name} умирает от голода");
-                Console.ResetColor();
+                color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.DarkRed));
             }
-            else if (HungryStatus > 10 && HungryStatus <= 40)
+            else if (HungryStatus >= 10 && HungryStatus <= 40)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine($"{Name} очень голодна");
-                Console.ResetColor();
+                color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.Red));
             }
             else if (HungryStatus > 40 && HungryStatus <= 70)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"{Name} хочет кушать");
-                Console.ResetColor();
+                color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.Yellow));
             }
             else if (HungryStatus > 70 && HungryStatus <= 90)
             {
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"{Name} не против перекусить");
-                Console.ResetColor();
+                color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.Yellow));
             }
             else if (HungryStatus > 90)
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"{Name} недавно поела");
-                Console.ResetColor();
+                color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.Green));
             }
+            string getStatus = $"{color}, Имя: {name}, Возраст: {age}, Статус: {status}";
+            return getStatus;
         }
         async Task LifeCircle()
         {
-            await Task.Delay(10000);
+            await Task.Delay(1000);
             HungryStatus -= 10;
             await LifeCircle();
         }
