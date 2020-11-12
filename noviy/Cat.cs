@@ -8,7 +8,11 @@ namespace noviy
     class Cat
     {
         public event EventHandler HungryStatusChanged;
-        byte _hungryStatus;
+        sbyte _hungryStatus;
+        int min = 10;
+        int mid40 = 40;
+        int mid70 = 70;
+        int max = 90;
         public string Name
         {
             get;
@@ -34,63 +38,64 @@ namespace noviy
             return (DateTime.Today - Birthday).Days / 365;
         }
 
-        public byte HungryStatus
+        public sbyte HungryStatus
         {
             get
             {
                 return _hungryStatus;
             }
-
             set
             {
-                byte s = value;
+                sbyte s = value;
                 if (s < 0)
                 {
-                     s = 0;
+                    s = 0;
                 }
                 else if (s > 100)
                 {
-                     s = 100;
+                    s = 100;
                 }
-                if (HungryStatus != s)
+                else
+                    _hungryStatus = value;
+                if (_hungryStatus < s)
                 {
-                    HungryStatusChanged?.Invoke(this, null); // оператор ?. защищает нас от вызова события, на которое не подписан ни один метод
+                    HungryStatusChanged?.Invoke(this, null);
                 }
+
                 _hungryStatus = s;
             }
         }
-        public void Feed(byte xorek)
+        public void Feed(sbyte needFood)
         {
-            HungryStatus += xorek;
+            HungryStatus += needFood;
         }
 
         public string GetStatus(string color)
         {
-            string name = Name;
-            string age = Convert.ToString(GetAge());
-            string status = Convert.ToString(HungryStatus);
-            Console.WriteLine($" {Name}, Возраст: {GetAge()}, {HungryStatus}");
-            if (HungryStatus < 10)
+            if (HungryStatus <= min)
             {
                 color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.DarkRed));
             }
-            else if (HungryStatus >= 10 && HungryStatus <= 40)
+            else if (HungryStatus > min && HungryStatus <= mid40)
             {
                 color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.Red));
             }
-            else if (HungryStatus > 40 && HungryStatus <= 70)
+            else if (HungryStatus > mid40 && HungryStatus <= mid70)
+            {
+                color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.DarkYellow));
+            }
+            else if (HungryStatus > mid70 && HungryStatus <= max)
             {
                 color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.Yellow));
             }
-            else if (HungryStatus > 70 && HungryStatus <= 90)
-            {
-                color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.Yellow));
-            }
-            else if (HungryStatus > 90)
+            else if (HungryStatus > max)
             {
                 color = Convert.ToString(Convert.ToInt32(Console.ForegroundColor = ConsoleColor.Green));
             }
-            string getStatus = $"{color}, Имя: {name}, Возраст: {age}, Статус: {status}";
+            string name = Name;
+            string age = Convert.ToString(GetAge());
+            string status = Convert.ToString(HungryStatus);
+            string getStatus = $"{color} {name} {age} {status}";
             return getStatus;
         }
         async Task LifeCircle()

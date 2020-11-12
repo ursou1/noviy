@@ -18,10 +18,9 @@ namespace noviy
             //cat.HungryStatus = 150;
             //cat1.HungryStatus = 60;
             Console.SetCursorPosition(0, cats.CatsCount + 1);
+            CommandCenter command = new CommandCenter(cats);
             Console.ReadLine();
         }
-        // Я не понял, как правильно преобразовать функцию GetStatus, поэтому попросил помощи у одногруппника.
-        // Но вывод информации происходит все равно как-то криво.
        
     }
 }
